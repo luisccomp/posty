@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
+    public function __construct()
+    {
+        // Porém, quando o middleware é passado pelo construtor, o mesmo será chamado durante as requisições de toras
+        // as rotas.
+        $this->middleware(['guest']);
+    }
+
     public function index()
     {
         return view('auth.register');
