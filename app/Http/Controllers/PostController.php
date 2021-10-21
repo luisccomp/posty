@@ -11,7 +11,9 @@ class PostController extends Controller
     {
         // As vezes é interessante realizar uma leitura prévia dos items do banco de dados para evitar o problema
         // N + 1 e deixar o sistema lento
-        $posts = Post::with(['user', 'likes'])->paginate(15);
+        $posts = Post::orderBy('created_at', 'desc')
+            ->with(['user', 'likes'])
+            ->paginate(20);
 
         // Passando a coleção de posts para a minha view
         return view('posts.index', [
@@ -41,6 +43,15 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        dd($post);
+        // Apagando o Post do banco de dados
+        // if (!$post->ownedBy(auth()->user()))
+        // {
+        //     // Throw an exception, if a user figure ou a way to delete a post that does not belongs to him
+        // }
+        $this->authorize('delete', $post);
+
+        $post->delete();
+
+        return back();
     }
 }

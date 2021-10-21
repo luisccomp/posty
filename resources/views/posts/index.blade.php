@@ -24,6 +24,16 @@
                         <a href="" class="font-bold">{{ $post->user->name }}</a> <span class="text-gray-600 text-sm">{{ $post->created_at->diffForHumans() }}</span>
                         <p class="mb-2">{{ $post->body }}</p>
 
+                        @can('delete', $post)
+                        <div>
+                            <form action="{{ route('posts.destroy', $post) }}" method="POST" class="mr-1">
+                                @csrf
+                                @method('DELETE')
+                                <button class="text-blue-500">Delete</button>
+                            </form>
+                        </div>
+                        @endcan
+
                         <div class="flex items-center">
                             @auth
                             @if (!$post->likedBy(auth()->user()))
@@ -38,12 +48,6 @@
                                 <button type="submit" class="text-blue-500">Unlike</button>
                             </form>
                             @endif
-
-                            <form action="{{ route('posts', $post) }}" method="POST" class="mr-1">
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-blue-500">Delete</button>
-                            </form>
                             @endauth
 
                             <span>{{ $post->likes->count() }} {{ Str::plural('like', $post->likes->count()) }}</span>

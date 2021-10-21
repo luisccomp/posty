@@ -27,8 +27,16 @@ class Post extends Model
     /**
      * Checks if a particular user has liked a post
      */
-    public function likedBy(User $user)
+    public function likedBy(User $user): bool
     {
         return $this->likes->contains('user_id', $user->id); // Collection
+    }
+
+    /**
+     * Checks if a particular Post belongs to a User
+     */
+    public function ownedBy(User $user): bool
+    {
+        return $this->user_id == $user->id;
     }
 }
