@@ -11,14 +11,15 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
+|--------------------------------------------------------------------------|
+| Web Routes                                                               |
+|--------------------------------------------------------------------------|
+|                                                                          |
+| Here is where you can register web routes for your application. These    |
+| routes are loaded by the RouteServiceProvider within a group which       |
+| contains the "web" middleware group. Now create something great!         |
+|                                                                          |
+|--------------------------------------------------------------------------|
 */
 
 Route::get('/welcome', function () {
@@ -34,6 +35,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // });
 Route::get('/posts', [PostController::class, 'index'])->name('posts');
 Route::post('/posts', [PostController::class, 'store']);
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts');
 
 // RegisterController routes
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
@@ -54,3 +56,4 @@ Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 
 // PostLikeController routes
 Route::post('/posts/{post}/likes', [PostLikeController::class, 'store'])->name('posts.likes');
+Route::delete('/posts/{post}/likes', [PostLikeController::class, 'destroy'])->name('posts.like');

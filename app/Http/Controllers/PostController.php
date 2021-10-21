@@ -9,7 +9,9 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::paginate(15);
+        // As vezes é interessante realizar uma leitura prévia dos items do banco de dados para evitar o problema
+        // N + 1 e deixar o sistema lento
+        $posts = Post::with(['user', 'likes'])->paginate(15);
 
         // Passando a coleção de posts para a minha view
         return view('posts.index', [
@@ -30,8 +32,15 @@ class PostController extends Controller
         //     'user_id' => auth()->id()
         // ]);
 
-        $request->user()->posts()->create($request->only('body'));
+        $request->user()
+            ->posts()
+            ->create($request->only('body'));
 
         return back();
+    }
+
+    public function destroy(Post $post)
+    {
+        dd($post);
     }
 }
