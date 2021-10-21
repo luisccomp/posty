@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
+use App\Http\Controllers\UserPostController;
 
 /*
 |--------------------------------------------------------------------------|
@@ -27,18 +28,24 @@ Route::get('/welcome', function () {
 });
 
 // HomeController Routes
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
 
 // PostController Routes
 // Route::get('/posts', function() {
 //     return view('posts.index');
 // });
-Route::get('/posts', [PostController::class, 'index'])->name('posts');
+Route::get('/posts', [PostController::class, 'index'])
+    ->name('posts');
+Route::get('/posts/{post}', [PostController::class, 'show'])
+    ->name('posts.show');
 Route::post('/posts', [PostController::class, 'store']);
-Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])
+    ->name('posts.destroy');
 
 // RegisterController routes
-Route::get('/register', [RegisterController::class, 'index'])->name('register');
+Route::get('/register', [RegisterController::class, 'index'])
+    ->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
 
 // DashboardController routes
@@ -48,12 +55,19 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware('auth');
 
 // LoginController routes
-Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::get('/login', [LoginController::class, 'index'])
+    ->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 
 // LogoutController routes
 Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 
 // PostLikeController routes
-Route::post('/posts/{post}/likes', [PostLikeController::class, 'store'])->name('posts.likes');
-Route::delete('/posts/{post}/likes', [PostLikeController::class, 'destroy'])->name('posts.like');
+Route::post('/posts/{post}/likes', [PostLikeController::class, 'store'])
+    ->name('posts.likes');
+Route::delete('/posts/{post}/likes', [PostLikeController::class, 'destroy'])
+    ->name('posts.like');
+
+// UserPostController Routes
+Route::get('/users/{user:username}/posts', [UserPostController::class, 'index'])
+    ->name('user.posts');

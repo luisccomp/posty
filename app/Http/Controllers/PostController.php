@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        // O método only serve para definir quais métodos o Middleware será executado durante a requisição. No exemplo
+        // ele será executado somente para os métodos store e destroy.
+        $this->middleware(['auth'])->only(['store', 'destroy']);
+    }
+
     public function index()
     {
         // As vezes é interessante realizar uma leitura prévia dos items do banco de dados para evitar o problema
@@ -39,6 +46,13 @@ class PostController extends Controller
             ->create($request->only('body'));
 
         return back();
+    }
+
+    public function show(Post $post)
+    {
+        return view('posts.show', [
+            'post' => $post
+        ]);
     }
 
     public function destroy(Post $post)
